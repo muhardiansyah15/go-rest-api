@@ -17,7 +17,12 @@ import (
 func Login(w http.ResponseWriter, r *http.Request) {
 
 	// Get JSON Input
-	var userInput models.User
+	type Login struct {
+		Username string `gorm:"varchar(300)" json:"username"`
+		Password string `gorm:"varchar(300)" json:"password"`
+	}
+
+	var userInput Login
 	decoder := json.NewDecoder(r.Body)
 	if err := decoder.Decode(&userInput); err != nil {
 		response := map[string]string{"message": err.Error()}

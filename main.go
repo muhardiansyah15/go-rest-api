@@ -19,7 +19,7 @@ func main() {
 	r.HandleFunc("/logout", controllers.Logout).Methods("GET")
 
 	api := r.PathPrefix("/api").Subrouter()
-	api.HandleFunc("/products", controllers.Index).Methods("GET")
+	api.HandleFunc("/about", controllers.Index).Methods("GET")
 	api.Use(middlewares.JWTMiddleware)
 
 	log.Fatal(http.ListenAndServe("localhost:8080", r))

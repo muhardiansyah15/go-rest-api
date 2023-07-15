@@ -14,13 +14,13 @@ import (
 func main() {
 	config.ConnectDatabase()
 	r := mux.NewRouter()
-	r.HandlerFunc("/login", controllers.Login).Methods("POST")
-	r.HandlerFunc("/register", controllers.Register).Methods("POST")
-	r.HandlerFunc("/logout", controllers.Logout).Methods("GET")
+	r.HandleFunc("/login", controllers.Login).Methods("POST")
+	r.HandleFunc("/register", controllers.Register).Methods("POST")
+	r.HandleFunc("/logout", controllers.Logout).Methods("GET")
 
 	api := r.PathPrefix("/api").Subrouter()
 	api.HandleFunc("/products", controllers.Index).Methods("GET")
 	api.Use(middlewares.JWTMiddleware)
 
-	log.Fatal(http.ListenAndServe("8080", r))
+	log.Fatal(http.ListenAndServe("localhost:8080", r))
 }

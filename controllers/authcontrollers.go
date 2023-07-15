@@ -28,10 +28,10 @@ func Login(w http.ResponseWriter, r *http.Request) {
 
 	// Get User data based on inputted username
 	var user models.User
-	if err := models.DB.Where("username = ?", userInput.Username).First(&user).Error; err != nil {
+	if err := config.DB.Where("username = ?", userInput.Username).First(&user).Error; err != nil {
 		switch err {
 		case gorm.ErrRecordNotFound:
-			response := map[string]string{"message": "Username atau password salah"}
+			response := map[string]string{"message": "Username or password is not valid"}
 			helper.ResponseJSON(w, http.StatusUnauthorized, response)
 			return
 		default:
@@ -98,7 +98,7 @@ func Register(w http.ResponseWriter, r *http.Request) {
 	userInput.Password = string(hashPassword)
 
 	// insert a new user to database
-	if err := models.DB.Create(&userInput).Error; err != nil {
+	if err := config.DB.Create(&userInput).Error; err != nil {
 		response := map[string]string{"message": err.Error()}
 		helper.ResponseJSON(w, http.StatusInternalServerError, response)
 		return

@@ -1,9 +1,10 @@
 package middlewares
 
 import (
+	"net/http"
+
 	"github.com/muhardiansyah15/go-rest-api/config"
 	"github.com/muhardiansyah15/go-rest-api/helper"
-	"net/http"
 
 	"github.com/golang-jwt/jwt"
 )
@@ -19,7 +20,7 @@ func JWTMiddleware(next http.Handler) http.Handler {
 				return
 			}
 		}
-		jwt.ParseWithClaims
+
 		// Get token value
 		tokenString := c.Value
 
@@ -29,7 +30,7 @@ func JWTMiddleware(next http.Handler) http.Handler {
 		token, err := jwt.ParseWithClaims(tokenString, claims, func(t *jwt.Token) (interface{}, error) {
 			return config.JWT_KEY, nil
 		})
-		
+
 		if err != nil {
 			v, _ := err.(*jwt.ValidationError)
 			switch v.Errors {
@@ -58,6 +59,5 @@ func JWTMiddleware(next http.Handler) http.Handler {
 
 		next.ServeHTTP(w, r)
 
-		
-	}
+	})
 }
